@@ -24,6 +24,7 @@ export default function App() {
   // should not associate registration with UI state
   // handle all socket events here
   useEffect(() => {
+    console.log("Socket URL: ", import.meta.env.VITE_SOCKET_URL);
     function updateSessionState(gameSession: GameSession) {
       // hehe. the type info is missing at runtime. gameSession is not quite a GameSession yet
       // need to create the map object
@@ -69,6 +70,15 @@ export default function App() {
     socket.on("message", showToast);
     socket.on("debug", printDebug);
     socket.on("leaveSessionOnClientSide", leaveSession);
+    socket.on("connect", () => {
+      console.log("Connected to server!");
+    });
+    socket.on("connect_error", (err) => {
+      console.log(`Connection error: ${err}`);
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from server");
+    });
 
     return () => {
       socket.off("sessionInfo", updateSessionState);
@@ -76,6 +86,9 @@ export default function App() {
       socket.off("message", showToast);
       socket.off("debug", printDebug);
       socket.off("leaveSessionOnClientSide", leaveSession);
+      socket.off("connect");
+      socket.off("connect_error");
+      socket.off("disconnect");
     };
   }, []);
 

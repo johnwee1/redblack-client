@@ -21,6 +21,7 @@ export default function Reveal({
   const playerGuessedCorrectly = guesses.get(socket.id!) === numberOfReds;
 
   const clickButtonEvent = (name: string) => {
+    if (!playerGuessedCorrectly || playerHasSelected) return;
     socket.emit("getPlayerGuess", name);
     setPlayerHasSelected(true);
   };
@@ -46,8 +47,10 @@ export default function Reveal({
 
   return (
     <VStack w="70vw" height="100vh" justify="center">
-      <Heading fontSize="xl">Reveal</Heading>
-      <Text>Question: {session.question}</Text>
+      <Heading size="4xl">Reveal</Heading>
+      <Text marginY="25px">
+        <b>{session.question}</b>
+      </Text>
       <Text>
         There{" "}
         <span style={{ color: "red" }}>
@@ -56,7 +59,9 @@ export default function Reveal({
         to the question.
       </Text>
       {numberOfReds > 0 ? (
-        <Text>If you guessed correctly, press to guess!</Text>
+        <Text marginBottom="20px">
+          If you guessed correctly, press to guess!
+        </Text>
       ) : (
         <Text>What?! Nobody picked red this round. How boring.</Text>
       )}
@@ -64,8 +69,9 @@ export default function Reveal({
         Array.from(session.players.entries()).map(([id, player]) => (
           <Button
             key={id}
+            marginBottom="5px"
             onClick={() => clickButtonEvent(player.name)}
-            disabled={!playerGuessedCorrectly || playerHasSelected}
+            minW="20vw"
             colorPalette={
               playerAnswerMap.get(player.name) === "red" ? "red" : "gray"
             }
@@ -84,11 +90,13 @@ export default function Reveal({
             })()}
           </Button>
         ))}
+
       {isCreator && (
         <Button
           onClick={handlePlayAgain}
           variant="surface"
           colorPalette="orange"
+          marginTop="20px"
         >
           Play Again?
         </Button>

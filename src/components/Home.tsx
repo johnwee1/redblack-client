@@ -1,4 +1,4 @@
-import { VStack, Input, Button, Flex } from "@chakra-ui/react";
+import { VStack, Input, Button, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { socket } from "../socket";
 import styled from "@emotion/styled";
@@ -62,25 +62,30 @@ export default function Home() {
   };
 
   return (
-    <VStack w="70vw" height="100vh" justify="center">
-      {/* <Heading size={"xl"}>redblack</Heading> */}
-      {renderAnimatedTitle()}
-      <Input
-        placeholder="Enter a username"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <Input
-        placeholder="Enter a room ID to create or join"
-        value={roomAlias}
-        onChange={(e) => setRoomAlias(e.target.value)}
-      />
-      <Button onClick={createGame} disabled={!name}>
-        Create Game
-      </Button>
-      <Button onClick={joinGame} disabled={!(name || roomAlias)}>
-        Join Game
-      </Button>
-    </VStack>
+    <Flex direction="column" height="100vh">
+      <VStack w="70vw" flex="1" justify="center">
+        {/* <Heading size={"xl"}>redblack</Heading> */}
+        {renderAnimatedTitle()}
+        <Input
+          placeholder="Enter a username"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          placeholder="Enter a room ID to create or join"
+          value={roomAlias}
+          onChange={(e) => setRoomAlias(e.target.value)}
+        />
+        <Button onClick={createGame} disabled={!name}>
+          Create Game
+        </Button>
+        <Button onClick={joinGame} disabled={!(name || roomAlias)}>
+          Join Game
+        </Button>
+      </VStack>
+      <VStack w="70vw" height="5vh" justify="center">
+        <Text>made with 🥂</Text>
+      </VStack>
+    </Flex>
   );
 }

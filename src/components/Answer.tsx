@@ -17,11 +17,11 @@ export default function Answer({ session }: { session: GameSession }) {
   };
 
   return (
-    <VStack w="70vw" height="100vh" justify="center">
+    <VStack w="70vw" height="90vh" justify="center">
       <Text fontSize="xl">Answer the question:</Text>
       <Text>{session.question}</Text>
       {submitted ? (
-        <Text>Answer submitted</Text>
+        <Text>Answer submitted!</Text>
       ) : (
         <>
           <Box

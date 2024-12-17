@@ -2,6 +2,7 @@ import { VStack, Input, Button, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { socket } from "../socket";
 import styled from "@emotion/styled";
+import { toaster } from "@/components/ui/toaster";
 
 const title = "redblack";
 
@@ -49,16 +50,27 @@ export default function Home() {
   const [name, setName] = useState("");
   const [roomAlias, setRoomAlias] = useState("");
 
+  const createToaster = () => {
+    toaster.create({
+      description:
+        "Not seeing anything different? Give the server a minute or so to start up, since I'm using a free server instance on render.com",
+      duration: 6000,
+      type: "warning",
+    });
+  };
+
   const createGame = () => {
     if (!name) return;
     socket.emit("createSession", name, roomAlias ? roomAlias : name);
     console.log("client emit createSession");
+    createToaster();
   };
 
   const joinGame = () => {
     if (!name) return;
     socket.emit("joinSession", name, roomAlias);
     console.log("client emit joinSession");
+    createToaster();
   };
 
   return (

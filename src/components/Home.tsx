@@ -51,9 +51,10 @@ export default function Home() {
   const [roomAlias, setRoomAlias] = useState("");
 
   const createToaster = () => {
+    if (socket.connected) return;
     toaster.create({
       description:
-        "Not seeing anything different? Give the server a minute or so to start up, since I'm using a free server instance on render.com",
+        "Not seeing anything different? Give the server a minute or so to start up, since I'm using a free server instance on render.com. Or maybe the server is dead. whoops!",
       duration: 6000,
       type: "warning",
     });
